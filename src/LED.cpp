@@ -14,8 +14,8 @@
 #include "WebThingAdapter.h"
 
 //TODO: Hardcode your wifi credentials here (and keep it private)
-const char* ssid = "public";
-const char* password = "";
+const char* ssid = "update_network_name";
+const char* password = "and_password";
 
 #if defined(LED_BUILTIN)
 const int ledPin = LED_BUILTIN;
@@ -58,16 +58,17 @@ void setup(void){
   Serial.println("");
   Serial.print("Connected to ");
   Serial.println(ssid);
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
-  adapter = new WebThingAdapter("w25", WiFi.localIP());
+  IPAddress ip = WiFi.localIP();
+  Serial.print("IP address : ");
+  Serial.println(ip);
+  adapter = new WebThingAdapter("wifi-module", WiFi.localIP());
 
   led.addProperty(&ledOn);
   adapter->addDevice(&led);
   adapter->begin();
   Serial.println("HTTP server started");
   Serial.print("http://");
-  Serial.print(WiFi.localIP());
+  Serial.print(ip);
   Serial.print("/things/");
   Serial.println(led.id);
 }
